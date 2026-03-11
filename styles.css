@@ -1,0 +1,639 @@
+/* ============================
+   CSS VARIABLES & RESET
+   ============================ */
+:root {
+  --bg:         #0e0d0b;
+  --surface:    #181610;
+  --card:       #1e1c17;
+  --border:     #2e2b22;
+  --accent:     #c8a96e;
+  --accent2:    #e8c98a;
+  --success:    #6bbf74;
+  --warn:       #e0875a;
+  --text:       #f0ead8;
+  --text-muted: #8a7f6a;
+  --text-dim:   #4a4538;
+  --radius:     10px;
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Mono', monospace;
+  --font-serif:   'DM Serif Display', serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ============================
+   APP LAYOUT
+   ============================ */
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* ============================
+   HEADER
+   ============================ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+}
+
+.header-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.header-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1;
+}
+
+.date-display {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-display span:first-child {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.date-display span:last-child {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============================
+   TODAY SECTION
+   ============================ */
+.today-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.today-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text);
+}
+
+/* Progress Ring */
+.progress-ring-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring { transform: rotate(-90deg); }
+
+.progress-ring__bg {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 4;
+}
+
+.progress-ring__fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 175.93;
+  stroke-dashoffset: 175.93;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              stroke 0.4s ease;
+}
+
+.progress-ring__fill.complete { stroke: var(--success); }
+
+.progress-ring-text {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  pointer-events: none;
+  transform: rotate(0deg);
+}
+
+/* Task List */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.1s;
+  user-select: none;
+}
+
+.task-item:hover {
+  border-color: var(--accent);
+  background: #201e17;
+  transform: translateX(3px);
+}
+
+.task-item.completed {
+  border-color: var(--success);
+  background: #141e15;
+}
+
+.task-item.completed .task-name {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--success);
+}
+
+.task-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.task-item:hover .task-checkbox { border-color: var(--accent); }
+
+.task-item.completed .task-checkbox {
+  border-color: var(--success);
+  background: var(--success);
+}
+
+.task-checkbox svg {
+  width: 12px;
+  height: 12px;
+  stroke: #0e0d0b;
+  stroke-width: 2.5;
+  fill: none;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.task-item.completed .task-checkbox svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.task-name {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  flex: 1;
+  transition: color 0.2s;
+}
+
+.task-tag {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(200, 169, 110, 0.1);
+  border: 1px solid rgba(200, 169, 110, 0.2);
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Weekend Message */
+.weekend-msg {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.weekend-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.weekend-msg p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ============================
+   CALENDAR SECTION
+   ============================ */
+.calendar-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.calendar-month-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.nav-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.calendar-weekdays span {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  padding: 4px 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+/* Calendar Day Cells */
+.cal-day {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  position: relative;
+  border: 1px solid transparent;
+  transition: border-color 0.2s, background 0.2s;
+  gap: 3px;
+  cursor: default;
+}
+
+.cal-day.empty { background: transparent; }
+
+.cal-day.weekend {
+  background: var(--surface);
+  color: var(--text-dim);
+}
+
+.cal-day.future-weekday {
+  background: var(--surface);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.cal-day.no-data {
+  background: var(--surface);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.cal-day.partial {
+  background: rgba(224, 135, 90, 0.08);
+  border-color: rgba(224, 135, 90, 0.3);
+  color: var(--warn);
+}
+
+.cal-day.done {
+  background: rgba(107, 191, 116, 0.1);
+  border-color: rgba(107, 191, 116, 0.35);
+  color: var(--success);
+}
+
+.cal-day.today-cell {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px rgba(200, 169, 110, 0.2);
+}
+
+.cal-day.today-cell .cal-day-num {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.cal-day-num {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.cal-day-pct {
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+.cal-day .check-mark {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* ============================
+   LEGEND
+   ============================ */
+.calendar-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.legend-dot.done     { background: rgba(107, 191, 116, 0.4); border: 1px solid var(--success); }
+.legend-dot.partial  { background: rgba(224, 135, 90, 0.3); border: 1px solid var(--warn); }
+.legend-dot.empty    { background: var(--surface); border: 1px solid var(--border); }
+.legend-dot.today-dot { background: transparent; border: 2px solid var(--accent); }
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.task-item {
+  animation: slideIn 0.3s ease both;
+}
+
+.task-item:nth-child(1)  { animation-delay: 0.05s; }
+.task-item:nth-child(2)  { animation-delay: 0.10s; }
+.task-item:nth-child(3)  { animation-delay: 0.15s; }
+.task-item:nth-child(4)  { animation-delay: 0.20s; }
+.task-item:nth-child(5)  { animation-delay: 0.25s; }
+.task-item:nth-child(6)  { animation-delay: 0.30s; }
+.task-item:nth-child(7)  { animation-delay: 0.35s; }
+
+@keyframes completePop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.task-item.completing { animation: completePop 0.3s ease; }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 480px) {
+  .app { padding: 24px 16px 60px; gap: 32px; }
+  .today-section, .calendar-section { padding: 20px 16px; }
+  .cal-day-pct { display: none; }
+  .calendar-legend { gap: 12px; }
+}
+
+/* ============================
+   LOGIN SCREEN
+   ============================ */
+.login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+}
+
+.login-title {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.login-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.input-group input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.input-group input:focus {
+  border-color: var(--accent);
+}
+
+.input-group input::placeholder {
+  color: var(--text-dim);
+}
+
+.login-error {
+  font-size: 12px;
+  color: var(--warn);
+  min-height: 16px;
+  letter-spacing: 0.02em;
+}
+
+.login-btn {
+  background: var(--accent);
+  color: #0e0d0b;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 4px;
+}
+
+.login-btn:hover  { background: var(--accent2); }
+.login-btn:active { transform: scale(0.98); }
+.login-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sign Out Button */
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.signout-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.signout-btn:hover {
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.login-card {
+  animation: fadeIn 0.4s ease both;
+}

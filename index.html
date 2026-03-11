@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Discipline Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <span class="login-label">DISCIPLINE</span>
+      <h1 class="login-title">Daily Tracker</h1>
+      <p class="login-sub">Sign in to continue</p>
+      <div class="login-form">
+        <div class="input-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email"/>
+        </div>
+        <div class="input-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"/>
+        </div>
+        <div class="login-error" id="login-error"></div>
+        <button class="login-btn" id="login-btn">Sign In</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div class="app" id="app" style="display:none">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-left">
+        <span class="header-label">DISCIPLINE</span>
+        <h1 class="header-title">Daily Tracker</h1>
+      </div>
+      <div class="header-right">
+        <div class="date-display">
+          <span id="today-date"></span>
+          <span id="today-day"></span>
+        </div>
+        <button class="signout-btn" id="signout-btn" title="Sign out">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- TODAY SECTION -->
+    <section class="today-section" id="today-section">
+      <div class="today-header">
+        <h2 class="section-title">Today's Tasks</h2>
+        <div class="progress-ring-container">
+          <svg class="progress-ring" width="72" height="72">
+            <circle class="progress-ring__bg" cx="36" cy="36" r="28"/>
+            <circle class="progress-ring__fill" id="progress-ring-fill" cx="36" cy="36" r="28"/>
+          </svg>
+          <span class="progress-ring-text" id="progress-percent-ring">0%</span>
+        </div>
+      </div>
+
+      <div class="task-list" id="task-list">
+        <!-- Tasks injected by JS -->
+      </div>
+
+      <div class="weekend-msg" id="weekend-msg" style="display:none">
+        <span class="weekend-icon">🌿</span>
+        <p>It's the weekend — rest and recharge.<br/>No tasks scheduled today.</p>
+      </div>
+    </section>
+
+    <!-- MONTH CALENDAR -->
+    <section class="calendar-section">
+      <div class="calendar-header">
+        <button class="nav-btn" id="prev-month">&#8592;</button>
+        <h2 class="calendar-month-title" id="calendar-month-title"></h2>
+        <button class="nav-btn" id="next-month">&#8594;</button>
+      </div>
+
+      <div class="calendar-weekdays">
+        <span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span>
+      </div>
+
+      <div class="calendar-grid" id="calendar-grid">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="calendar-legend">
+        <span class="legend-item"><span class="legend-dot done"></span>All done</span>
+        <span class="legend-item"><span class="legend-dot partial"></span>Partial</span>
+        <span class="legend-item"><span class="legend-dot empty"></span>No tasks / Weekend</span>
+        <span class="legend-item"><span class="legend-dot today-dot"></span>Today</span>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
